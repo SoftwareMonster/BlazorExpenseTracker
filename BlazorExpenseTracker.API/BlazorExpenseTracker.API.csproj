@@ -5,13 +5,9 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Folder Include="Data\" />
-    <Folder Include="Interfaces\" />
-    <Folder Include="Services\" />
-  </ItemGroup>
-
-  <ItemGroup>
+    <ProjectReference Include="..\BlazorExpenseTracker.Data\BlazorExpenseTracker.Data.csproj" />
     <ProjectReference Include="..\BlazorExpenseTracker.Model\BlazorExpenseTracker.Model.csproj" />
   </ItemGroup>
+
 
 </Project>
