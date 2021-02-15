@@ -10,6 +10,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using BlazorExpenseTracker.Data;
 
 namespace BlazorExpenseTracker.API
 {
@@ -26,6 +27,8 @@ namespace BlazorExpenseTracker.API
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllers();
+            var sqlConnectionConfiguration = new SqlConfiguration(Configuration.GetConnectionString("SqlConnection"));
+            services.AddSingleton(sqlConnectionConfiguration);
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

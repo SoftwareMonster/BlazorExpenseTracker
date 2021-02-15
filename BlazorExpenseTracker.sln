@@ -3,13 +3,13 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.31005.135
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BlazorExpenseTracker.UI", "BlazorExpenseTracker.UI\BlazorExpenseTracker.UI.csproj", "{0BC8809C-2CA4-4D9C-A307-3BED238FB594}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BlazorExpenseTracker.UI", "BlazorExpenseTracker.UI\BlazorExpenseTracker.UI.csproj", "{0BC8809C-2CA4-4D9C-A307-3BED238FB594}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BlazorExpenseTracker.Model", "BlazorExpenseTracker.Model\BlazorExpenseTracker.Model.csproj", "{64B96FE5-9040-4DD4-AB47-DB6C3C40BB0D}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BlazorExpenseTracker.Model", "BlazorExpenseTracker.Model\BlazorExpenseTracker.Model.csproj", "{64B96FE5-9040-4DD4-AB47-DB6C3C40BB0D}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BlazorExpenseTracker.Data", "BlazorExpenseTracker.Data\BlazorExpenseTracker.Data.csproj", "{18609DDA-FA2A-4B25-816F-0186467186EB}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BlazorExpenseTracker.Data", "BlazorExpenseTracker.Data\BlazorExpenseTracker.Data.csproj", "{18609DDA-FA2A-4B25-816F-0186467186EB}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BlazorExpenseTracker.API", "BlazorExpenseTracker.API\BlazorExpenseTracker.API.csproj", "{3EE1CC2E-5755-4A3A-987B-E7FB1D0B80F8}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BlazorExpenseTracker.API", "BlazorExpenseTracker.API\BlazorExpenseTracker.API.csproj", "{3EE1CC2E-5755-4A3A-987B-E7FB1D0B80F8}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
