@@ -77,10 +77,5 @@ namespace BlazorExpenseTracker.API.Controllers
             await _categoryRepository.DeleteCategory(id);
             return NoContent(); //success
         }
-
-        public IActionResult Index()
-        {
-            return View();
-        }
     }
 }

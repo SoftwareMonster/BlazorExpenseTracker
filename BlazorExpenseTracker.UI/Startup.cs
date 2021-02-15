@@ -9,6 +9,8 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using BlazorExpenseTracker.UI.Interfaces;
+using BlazorExpenseTracker.UI.Services;
 
 namespace BlazorExpenseTracker.UI
 {
@@ -27,6 +29,10 @@ namespace BlazorExpenseTracker.UI
         {
             services.AddRazorPages();
             services.AddServerSideBlazor();
+
+            services.AddHttpClient<ICategoryService, CategoryService>(
+                client => { client.BaseAddress = new Uri("https://localhost:44332");}
+                );
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
