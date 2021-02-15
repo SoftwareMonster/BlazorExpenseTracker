@@ -9,7 +9,6 @@ namespace BlazorExpenseTracker.Model
     {
         public int Id { get; set; }
         [Required(AllowEmptyStrings = false, ErrorMessage="Por Favor, rellene la descripcion de la categoria")]
-        [EmailAddress]
         [StringLength(150)]
         public string Name { get; set; }
     }
