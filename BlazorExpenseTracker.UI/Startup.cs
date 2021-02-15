@@ -28,7 +28,7 @@ namespace BlazorExpenseTracker.UI
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddRazorPages();
-            services.AddServerSideBlazor();
+            services.AddServerSideBlazor().AddCircuitOptions(option => { option.DetailedErrors = true;});
 
             services.AddHttpClient<ICategoryService, CategoryService>(
                 client => { client.BaseAddress = new Uri("https://localhost:44332");}
