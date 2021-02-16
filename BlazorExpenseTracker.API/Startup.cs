@@ -27,8 +27,8 @@ namespace BlazorExpenseTracker.API
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddScoped<ICategoryRepository, CategoryRepository>();
             services.AddControllers();
+            services.AddScoped<ICategoryRepository, CategoryRepository>();
             var sqlConnectionConfiguration = new SqlConfiguration(Configuration.GetConnectionString("SqlConnection"));
             services.AddSingleton(sqlConnectionConfiguration);
         }

@@ -11,7 +11,7 @@ namespace BlazorExpenseTracker.API.Controllers
     {
         private readonly ICategoryRepository _categoryRepository;
 
-        public CategoryController(CategoryRepository categoryRepository)
+        public CategoryController(ICategoryRepository categoryRepository)
         {
             _categoryRepository = categoryRepository;
         }

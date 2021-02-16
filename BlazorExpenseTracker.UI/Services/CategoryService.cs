@@ -31,7 +31,7 @@ namespace BlazorExpenseTracker.UI.Services
             var categoryJson = new StringContent(JsonSerializer.Serialize(category), Encoding.UTF8,"application/json");
             if (category.Id == 0)
             {
-                await _httpClient.PostAsync($"api/category",categoryJson);
+                var a = await _httpClient.PostAsync($"api/category",categoryJson);
             }
             else
             {

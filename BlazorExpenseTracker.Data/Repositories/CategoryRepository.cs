@@ -10,7 +10,10 @@ namespace BlazorExpenseTracker.Data.Repositories
     {
         private readonly SqlConfiguration _connectionString;
 
-        public CategoryRepository(SqlConfiguration connectionString) => _connectionString = connectionString;
+        public CategoryRepository(SqlConfiguration connectionString)
+        {
+            _connectionString = connectionString;
+        }
 
         protected SqlConnection DbConnection()
         {
