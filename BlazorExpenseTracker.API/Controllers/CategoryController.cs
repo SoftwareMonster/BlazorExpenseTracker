@@ -1,4 +1,5 @@
-﻿using System.Threading.Tasks;
+﻿using System.Reflection;
+using System.Threading.Tasks;
 using BlazorExpenseTracker.Data.Repositories;
 using BlazorExpenseTracker.Model;
 using Microsoft.AspNetCore.Mvc;
@@ -10,15 +11,20 @@ namespace BlazorExpenseTracker.API.Controllers
     public class CategoryController : Controller
     {
         private readonly ICategoryRepository _categoryRepository;
+        private readonly Serilogger.Serilogger _serilogger;
 
-        public CategoryController(ICategoryRepository categoryRepository)
+
+        public CategoryController(ICategoryRepository categoryRepository,Serilogger.Serilogger serilogger)
         {
             _categoryRepository = categoryRepository;
+            _serilogger = serilogger;
         }
         
         [HttpGet]
         public async Task<IActionResult> GetAllCategories()
         {
+            
+            _serilogger.GetInformattion(null,"Hola", MethodBase.GetCurrentMethod().Name,"Gorka");
             return Ok(await _categoryRepository.GetAllCategories());
         }
 

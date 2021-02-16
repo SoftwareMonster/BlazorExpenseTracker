@@ -31,6 +31,8 @@ namespace BlazorExpenseTracker.API
             services.AddScoped<ICategoryRepository, CategoryRepository>();
             var sqlConnectionConfiguration = new SqlConfiguration(Configuration.GetConnectionString("SqlConnection"));
             services.AddSingleton(sqlConnectionConfiguration);
+            var logger = new Serilogger.Serilogger();
+            services.AddSingleton(logger);
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -40,7 +42,7 @@ namespace BlazorExpenseTracker.API
             {
                 app.UseDeveloperExceptionPage();
             }
-
+            
             app.UseHttpsRedirection();
 
             app.UseRouting();

@@ -7,6 +7,7 @@
   <ItemGroup>
     <ProjectReference Include="..\BlazorExpenseTracker.Data\BlazorExpenseTracker.Data.csproj" />
     <ProjectReference Include="..\BlazorExpenseTracker.Model\BlazorExpenseTracker.Model.csproj" />
+    <ProjectReference Include="..\BlazorExpenseTracker.Serilogger\BlazorExpenseTracker.Serilogger.csproj" />
   </ItemGroup>
 
 

@@ -1,8 +1,11 @@
 ﻿@using BlazorExpenseTracker.Model
+@using BlazorExpenseTracker.UI.Interfaces
+@using BlazorExpenseTracker.UI.Services
 @page "/categories"
+@inject ICategoryService CategoryService
 
 <h3>Categories</h3>
-
+<p>@Message</p>
 @if (categories == null)
 {
     <p><em>Loading...</em></p>
@@ -25,9 +28,19 @@ else
 }
 
 @code {
-    private IEnumerable<Category> categories = new List<Category>
+    public IEnumerable<Category> categories { get; set; }
+    public string Message { get; set; }
+
+    protected async override Task OnInitializedAsync()
     {
-        new Category{ Id = 1,Name = "Shopping"},
-        new Category{Id=2,Name = "Fuel"}
-    };
+        try
+        {
+            categories = await CategoryService.GetAllCategories();
+        }
+        catch (Exception e)
+        {
+            Message = "Algo fue mal" + e.Message;
+        }
+    }
+
 }
