@@ -1,4 +1,5 @@
-﻿using System.Reflection;
+﻿using System;
+using System.Reflection;
 using System.Threading.Tasks;
 using BlazorExpenseTracker.Data.Repositories;
 using BlazorExpenseTracker.Model;
@@ -11,77 +12,105 @@ namespace BlazorExpenseTracker.API.Controllers
     public class CategoryController : Controller
     {
         private readonly ICategoryRepository _categoryRepository;
-        private readonly Serilogger.Serilogger _serilogger;
+        private readonly Serilogger.Serilogger _seriLogger;
 
-
-        public CategoryController(ICategoryRepository categoryRepository,Serilogger.Serilogger serilogger)
+        public CategoryController(ICategoryRepository categoryRepository,Serilogger.Serilogger seriLogger)
         {
-            _categoryRepository = categoryRepository;
-            _serilogger = serilogger;
+            var currentMethod = MethodBase.GetCurrentMethod().Name;
+            try
+            {
+                _categoryRepository = categoryRepository;
+                _seriLogger = seriLogger;
+            }
+            catch (Exception ex)
+            {
+                _seriLogger.GetInformattion(ex, ex.Message, currentMethod, "Gorka");
+            }
         }
         
         [HttpGet]
         public async Task<IActionResult> GetAllCategories()
         {
-            
-            _serilogger.GetInformattion(null,"Hola", MethodBase.GetCurrentMethod().Name,"Gorka");
-            return Ok(await _categoryRepository.GetAllCategories());
+            var currentMethod = MethodBase.GetCurrentMethod().Name;
+            try
+            {
+                return Ok(await _categoryRepository.GetAllCategories());
+            }
+            catch (Exception ex)
+            {
+                _seriLogger.GetInformattion(ex, ex.Message, currentMethod, "Gorka");
+                return null;
+            }
         }
 
         [HttpGet("{id}")]
         public async Task<IActionResult> GetCategoryDetails(int id)
         {
-            return Ok(await _categoryRepository.GetCategoryDetails(id));
+            var currentMethod = MethodBase.GetCurrentMethod().Name;
+            try
+            {
+                return Ok(await _categoryRepository.GetCategoryDetails(id));
+            }
+            catch (Exception ex)
+            {
+                _seriLogger.GetInformattion(ex, ex.Message, currentMethod, "Gorka");
+                return null;
+            }
         }
 
         [HttpPost]
         public async Task<IActionResult> CreateCategory([FromBody] Category category)
         {
-            if (category == null)
+            var currentMethod = MethodBase.GetCurrentMethod().Name;
+            try
             {
-                return BadRequest();
+                if (category == null) return BadRequest();
+                if (category.Name.Trim() == string.Empty) ModelState.AddModelError("Name", "Category Name shouldn't be empty");
+                if (!ModelState.IsValid) return BadRequest(ModelState);
+                var created = await _categoryRepository.InsertCategory(category);
+                return Created("created", created);
             }
-            if (category.Name.Trim() == string.Empty)
+            catch (Exception ex)
             {
-                ModelState.AddModelError("Name","Category Name shouldn't be empty");
+                _seriLogger.GetInformattion(ex, ex.Message, currentMethod, "Gorka");
+                return null;
             }
-            if (!ModelState.IsValid)
-            {
-                return BadRequest(ModelState);
-            }
-            var created = await _categoryRepository.InsertCategory(category);
-
-            return Created("created", created);
         }
 
         [HttpPut]
         public async Task<IActionResult> UpdateCategory([FromBody] Category category)
         {
-            if (category == null)
+            var currentMethod = MethodBase.GetCurrentMethod().Name;
+            try
             {
-                return BadRequest();
+                if (category == null) return BadRequest();
+                if (category.Name.Trim() == string.Empty) ModelState.AddModelError("Name", "Category Name shouldn't be empty");
+                if (!ModelState.IsValid) return BadRequest(ModelState);
+                await _categoryRepository.UpdateCategory(category);
+                return NoContent(); //success
             }
-            if (category.Name.Trim() == string.Empty)
+            catch (Exception ex)
             {
-                ModelState.AddModelError("Name", "Category Name shouldn't be empty");
+                _seriLogger.GetInformattion(ex, ex.Message, currentMethod, "Gorka");
+                return null;
             }
-            if (!ModelState.IsValid)
-            {
-                return BadRequest(ModelState);
-            }
-            await _categoryRepository.UpdateCategory(category);
-            return NoContent(); //success
         }
 
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteCategory(int id)
         {
-            if (id == 0)
+            var currentMethod = MethodBase.GetCurrentMethod().Name;
+            try
             {
-                return BadRequest();
+                if (id == 0) return BadRequest();
+                await _categoryRepository.DeleteCategory(id);
+                return NoContent(); //success
             }
-            await _categoryRepository.DeleteCategory(id);
-            return NoContent(); //success
+            catch (Exception ex)
+            {
+                _seriLogger.GetInformattion(ex, ex.Message, currentMethod, "Gorka");
+                return null;
+            }
         }
     }
 }
