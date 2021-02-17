@@ -1,11 +1,13 @@
 ﻿@page "/categorydetails"
+@page "/categorydetails/{id:int}"
 @using Model
 @using BlazorExpenseTracker.UI.Interfaces
 @inject ICategoryService CategoryService
+@inject NavigationManager NavigationManager
 
 <h1>CategoryDetails</h1>
 
-<EditForm Model="@category" OnValidSubmit="SaveCategory" OnInvalidSubmit="Error">
+<EditForm Model="@category" OnValidSubmit="SaveCategory">
     <DataAnnotationsValidator/>
     @*<ValidationSummary/>*@
     <table class="table">
@@ -19,22 +21,40 @@
         <tr>
             <td colspan="2" style="text-align: center">
                 <input type="submit" value="Save"/>
-                <input type="button" value="Cancel"/>
+                <input type="button" value="Cancel" @onclick="Cancel"/>
             </td>
         </tr>
     </table>
 </EditForm>
 
 @code {
+    [Parameter]
+    public int Id { get; set; }
+
     Category category = new Category();
+
+    protected async override Task OnInitializedAsync()
+    {
+        if (Id != 0)
+        {
+            category = await CategoryService.GetCategoryDetails(Id);
+        }
+    }
 
     protected async void SaveCategory()
     {
         await CategoryService.SaveCategory(category);
+        NavigateToCategories();
     }
 
-    protected void Error()
+    public void Cancel()
     {
-        
+        NavigateToCategories();
     }
+
+    public void NavigateToCategories()
+    {
+        NavigationManager.NavigateTo("/categories");
+    }
+
 }

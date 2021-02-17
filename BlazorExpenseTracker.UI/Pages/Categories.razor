@@ -12,6 +12,13 @@
 }
 else
 {
+    <table class="table">
+        <tbody>
+        <tr>
+            <td colspan="2"><a href="/categorydetails">Add New</a></td>
+        </tr>
+        </tbody>
+    </table>
     <table>
         <thead>
         <tr><th>Name</th></tr>
@@ -21,6 +28,7 @@ else
             {
                 <tr>
                     <td>@category.Name</td>
+                    <td><a href="/categorydetails/@category.Id"><i>Edit</i></a></td>
                 </tr>
             }
         </tbody>
