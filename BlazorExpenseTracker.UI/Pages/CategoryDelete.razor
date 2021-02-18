@@ -1,7 +1,7 @@
-﻿@page "/categorydetails"
-@page "/categorydetails/{id:int}"
+﻿@page "/categorydelete/{id:int}"
 @using Model
-@using BlazorExpenseTracker.UI.Interfaces
+@using Interfaces
+@using Microsoft.AspNetCore.Razor.TagHelpers
 @inject ICategoryService CategoryService
 @inject NavigationManager NavigationManager
 
@@ -9,24 +9,24 @@
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
-                <h1>CategoryDetails</h1>
+                <h1>CategoryDelete</h1>
             </div>
             <div class="modal-body">
-                <EditForm Model="@category" OnValidSubmit="SaveCategory">
-                    <DataAnnotationsValidator/>
+                <EditForm Model="@category" OnValidSubmit="DeleteCategory">
+                    <DataAnnotationsValidator />
                     @*<ValidationSummary/>*@
                     <table class="table">
                         <tr>
                             <td>Name</td>
-                            <td><input type="text" @bind="category.Name"/></td>
+                            <td><input type="text" @bind="category.Name" /></td>
                         </tr>
                         <tr>
                             <td colspan="2"><ValidationMessage For="@(() => category.Name)"></ValidationMessage> </td>
                         </tr>
                         <tr>
                             <td colspan="2" style="text-align: center">
-                                <input type="submit" value="Save"/>
-                                <input type="button" value="Cancel" @onclick="Cancel"/>
+                                <input type="submit" value="Delete" />
+                                <input type="button" value="Cancel" @onclick="Cancel" />
                             </td>
                         </tr>
                     </table>
@@ -35,7 +35,6 @@
         </div>
     </div>
 </div>
-
 
 @code {
     [Parameter]
@@ -49,16 +48,12 @@
         {
             category = await CategoryService.GetCategoryDetails(Id);
         }
+
     }
 
-    protected async void SaveCategory()
+    protected async Task DeleteCategory()
     {
-        await CategoryService.SaveCategory(category);
-        NavigateToCategories();
-    }
-
-    public void Cancel()
-    {
+        await CategoryService.DeleteCategory(Id);
         NavigateToCategories();
     }
 
@@ -67,4 +62,8 @@
         NavigationManager.NavigateTo("/categories");
     }
 
+    public void Cancel()
+    {
+        NavigateToCategories();
+    }
 }
