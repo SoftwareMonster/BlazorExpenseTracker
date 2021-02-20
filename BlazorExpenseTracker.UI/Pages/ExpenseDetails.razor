@@ -1,0 +1,60 @@
+﻿@page "/expensedetails"
+@using Model
+@using Interfaces
+@inject ICategoryService CategoryService
+<h1>Details</h1>
+<EditForm Model="@expense">
+    <table class="table">
+        <tr>
+            <td>Amount:</td>
+            <td><InputNumber @bind-Value="@expense.Amount"></InputNumber></td>
+        </tr>
+        <tr>
+            <td>Date:</td>
+            <td><InputDate @bind-Value="@expense.TransactionDate"></InputDate></td>
+        </tr>
+        <tr>
+            <td>Category:</td>
+            <td>
+                <InputSelect @bind-Value="@expense.CategoryId">
+                    @foreach (var category in categories)
+                    {
+                        <option value="@category.Id">@category.Name</option>
+                    }
+                </InputSelect>
+            </td>
+        </tr>
+        <tr>
+            <td>Expense Type:</td>
+            <td>
+                <InputSelect disabled="true" @bind-Value="@expense.ExpenseType">
+                    <option value="@(ExpenseType.Income)">Income</option>
+                    <option value="@(ExpenseType.Expense)">Expense</option>
+                </InputSelect>
+            </td>
+        </tr>
+        <tr>
+            <td colspan="2" style="text-align: center">
+                <input type="submit" class="btn-success" value="Save" />
+                <input type="button" class="btn-secondary" value="Cancel" />
+            </td>
+        </tr>
+    </table>
+</EditForm>
+
+
+@code {
+    private Expense expense = new Expense();
+    private IEnumerable<Category> categories= new List<Category>();
+
+    [Parameter]
+    public ExpenseType ExpenseType { get; set; }
+
+    protected async override Task OnInitializedAsync()
+    {
+        categories = await CategoryService.GetAllCategories();
+        expense.ExpenseType = ExpenseType;
+        expense.CategoryId = categories.FirstOrDefault().Id;
+    }
+
+}

@@ -2,8 +2,16 @@
 <div class="btn-group" role ="group">
     @foreach (TabPage tabPage in Pages)
     {
-        <button type="button" class="btn @GetButtonClass(tabPage)" @onclick=@(()=>ActivatePage(tabPage))>
-            @tabPage.Text
+        <button type="button" class="btn @GetButtonClass(tabPage)" @onclick=@(() => ActivatePage(tabPage))>
+            @if (TabTitle != null)
+            {
+                 @TabTitle(tabPage);
+            }
+            else
+            {
+                @tabPage.Text
+            }
+
         </button>
     }
 </div>
@@ -16,6 +24,8 @@
     //Este parametro recibira cada tagpage que se agregue en el control
     [Parameter]
     public RenderFragment ChildContent { get; set; }
+    [Parameter]
+    public RenderFragment<TabPage> TabTitle { get; set; }
 
     public TabPage ActivePage { get; set; }
 

@@ -3,12 +3,18 @@
 
 <h3>ExpenseTracker</h3>
 <TabControl>
-    <TabPage Text="Expense">
-        <h3>Amounts will be negative here</h3>
-    </TabPage>
-    <TabPage Text="Income">
-        <h3>Amounts will be positive here</h3>
-    </TabPage>
+    <TabTitle>
+        <img src="images/@(context.ImageSource).png" width="16" height="16"/>
+        @context.Text
+    </TabTitle>
+    <ChildContent>
+        <TabPage Text="Expense" ImageSource="minus-circle">
+            <ExpenseDetails ExpenseType="@Model.ExpenseType.Expense"></ExpenseDetails>
+        </TabPage>
+        <TabPage Text="Income" ImageSource="plus-circle">
+            <ExpenseDetails ExpenseType="@Model.ExpenseType.Income"></ExpenseDetails>
+        </TabPage>
+    </ChildContent>
 </TabControl>
 
 
