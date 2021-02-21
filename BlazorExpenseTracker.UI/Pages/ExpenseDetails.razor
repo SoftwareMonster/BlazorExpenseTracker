@@ -2,24 +2,35 @@
 @using Model
 @using Interfaces
 @inject ICategoryService CategoryService
+@inject IExpenseService ExpenseService
+@inject NavigationManager NavigationManager
+@inject IJSRuntime JsRuntime
+
 <h1>Details</h1>
-<EditForm Model="@expense">
+<EditForm Model="@expense" OnValidSubmit="@SaveExpenseDetails" OnInvalidSubmit="@Error">
+    <DataAnnotationsValidator />
     <table class="table">
         <tr>
             <td>Amount:</td>
-            <td><InputNumber @bind-Value="@expense.Amount"></InputNumber></td>
+            <td>
+                <InputNumber @bind-Value="@expense.Amount"></InputNumber>
+                <ValidationMessage For="@(() => expense.Amount)"></ValidationMessage>
+            </td>
         </tr>
         <tr>
             <td>Date:</td>
-            <td><InputDate @bind-Value="@expense.TransactionDate"></InputDate></td>
+            <td>
+                <InputDate @bind-Value="@expense.TransactionDate"></InputDate>
+                <ValidationMessage For="@(() => expense.TransactionDate)"></ValidationMessage>
+            </td>
         </tr>
         <tr>
             <td>Category:</td>
             <td>
                 <InputSelect @bind-Value="@expense.CategoryId">
-                    @foreach (var category in categories)
+                    @foreach (Category item in categories)
                     {
-                        <option value="@category.Id">@category.Name</option>
+                        <option value="@item.Id">@item.Name</option>
                     }
                 </InputSelect>
             </td>
@@ -35,8 +46,9 @@
         </tr>
         <tr>
             <td colspan="2" style="text-align: center">
-                <input type="submit" class="btn-success" value="Save" />
-                <input type="button" class="btn-secondary" value="Cancel" />
+                <input type="submit" class="btn-success" value="@(expense.Id==0 ?"Save":"Update")" />
+                <input type="button" class="btn-danger" value="Delete" style="@GetCancelButtonStyle()"  @onclick="@DeleteExpenseDetails" />
+                <input type="button" class="btn-secondary" value="Cancel" style="@GetCancelButtonStyle()" @onclick="@Cancel" />
             </td>
         </tr>
     </table>
@@ -44,8 +56,10 @@
 
 
 @code {
-    private Expense expense = new Expense();
-    private IEnumerable<Category> categories= new List<Category>();
+    [CascadingParameter]
+    protected Expense expense { get; set; }
+    private IEnumerable<Category> categories = new List<Category>();
+
 
     [Parameter]
     public ExpenseType ExpenseType { get; set; }
@@ -53,8 +67,51 @@
     protected async override Task OnInitializedAsync()
     {
         categories = await CategoryService.GetAllCategories();
-        expense.ExpenseType = ExpenseType;
-        expense.CategoryId = categories.FirstOrDefault().Id;
+        if (expense.Id==0)
+        {
+            expense.ExpenseType = ExpenseType;
+            expense.CategoryId = categories.FirstOrDefault().Id.ToString();
+        }
     }
 
+    protected void Error()
+    {
+
+    }
+    protected async void SaveExpenseDetails()
+    {
+        await ExpenseService.SaveExpenseDetails(expense);
+        expense.SelectedExpenseChanged(expense);
+        ClearExpense();
+    }
+
+    protected async void DeleteExpenseDetails()
+    {
+        bool confirmed = await JsRuntime.InvokeAsync<bool>("confirm","Are You Sure?");
+        if (confirmed)
+        {
+            await ExpenseService.DeleteExpenseDetails(expense.Id);
+            expense.SelectedExpenseChanged(expense);
+            ClearExpense();
+        }
+    }
+
+    protected string GetCancelButtonStyle()
+    {
+        return expense.Id == 0 ? "display:none" : "";
+    }
+
+    public void Cancel()
+    {
+        ClearExpense();
+    }
+
+    private void ClearExpense()
+    {
+        expense.Amount = 0;
+        expense.Id = 0;
+        expense.TransactionDate = DateTime.MinValue;
+        expense.CategoryId = categories.FirstOrDefault().Id.ToString();
+        expense.ExpenseType = ExpenseType;
+    }
 }

@@ -28,6 +28,10 @@ namespace BlazorExpenseTracker.UI
             services.AddHttpClient<ICategoryService, CategoryService>(
                 client => { client.BaseAddress = new Uri("https://localhost:44360");}
                 );
+            services.AddHttpClient<IExpenseService, ExpenseService>(
+                client => { client.BaseAddress = new Uri("https://localhost:44360"); }
+            );
+
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

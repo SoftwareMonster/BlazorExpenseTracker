@@ -29,6 +29,7 @@ namespace BlazorExpenseTracker.API
         {
             services.AddControllers();
             services.AddScoped<ICategoryRepository, CategoryRepository>();
+            services.AddScoped<IExpenseRepository, ExpenseRepository>();
             var sqlConnectionConfiguration = new SqlConfiguration(Configuration.GetConnectionString("SqlConnection"));
             services.AddSingleton(sqlConnectionConfiguration);
             var logger = new Serilogger.Serilogger();
