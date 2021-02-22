@@ -15,38 +15,33 @@ namespace BlazorExpenseTracker.Data.Repositories
             _connectionString = connectionString;
         }
 
-        protected SqlConnection DbConnection()
-        {
-            return new SqlConnection(_connectionString.ConnectionString);
-        }
-        
         public async Task<IEnumerable<Category>> GetAllCategories()
         {
             var db = DbConnection();
             const string sql = "SELECT * FROM Categories";
-            return await db.QueryAsync<Category>(sql,new{});
+            return await db.QueryAsync<Category>(sql, new { });
         }
 
         public async Task<Category> GetCategoryDetails(int id)
         {
             var db = DbConnection();
             const string sql = "SELECT * FROM Categories WHERE Id=@Id";
-            return await db.QueryFirstOrDefaultAsync<Category>(sql,new {Id=id});
+            return await db.QueryFirstOrDefaultAsync<Category>(sql, new {Id = id});
         }
 
         public async Task<bool> InsertCategory(Category category)
         {
             var db = DbConnection();
             const string sql = "INSERT INTO Categories (Name) VALUES (@Name)";
-            var result= await db.ExecuteAsync(sql, new {category.Name});
-            return result>0;
+            var result = await db.ExecuteAsync(sql, new {category.Name});
+            return result > 0;
         }
 
         public async Task<bool> UpdateCategory(Category category)
         {
             var db = DbConnection();
             const string sql = "UPDATE Categories SET Name = @Name WHERE Id=@Id";
-            var result = await db.ExecuteAsync(sql, new { category.Id, category.Name });
+            var result = await db.ExecuteAsync(sql, new {category.Id, category.Name});
             return result > 0;
         }
 
@@ -54,8 +49,13 @@ namespace BlazorExpenseTracker.Data.Repositories
         {
             var db = DbConnection();
             const string sql = "DELETE FROM Categories WHERE Id=@Id";
-            var result = await db.ExecuteAsync(sql, new { Id = id });
+            var result = await db.ExecuteAsync(sql, new {Id = id});
             return result > 0;
+        }
+
+        protected SqlConnection DbConnection()
+        {
+            return new SqlConnection(_connectionString.ConnectionString);
         }
     }
 }

@@ -1,37 +1,50 @@
-﻿@using BlazorExpenseTracker.Model
-@using BlazorExpenseTracker.UI.Interfaces
-@using BlazorExpenseTracker.UI.Services
-@page "/categories"
+﻿@page "/categories"
 @inject ICategoryService CategoryService
 
 <h3>Categories</h3>
 <p>@Message</p>
 @if (categories == null)
 {
-    <p><em>Loading...</em></p>
+    <p>
+        <em>Loading...</em>
+    </p>
 }
 else
 {
     <table class="table">
         <tbody>
         <tr>
-            <td colspan="2"><a href="/categorydetails">Add New</a></td>
+            <td colspan="2">
+                <a href="/categorydetails">Add New</a>
+            </td>
         </tr>
         </tbody>
     </table>
-    <table>
+    <table class="table">
         <thead>
-        <tr><th>Name</th></tr>
+        <tr>
+            <th>Name</th>
+            <th></th>
+            <th></th>
+        </tr>
         </thead>
         <tbody>
-            @foreach (var category in categories)
-            {
+        @foreach (var category in categories)
+        {
             <tr>
                 <td>@category.Name</td>
-                <td><a href="/categorydetails/@category.Id"><i>Edit</i></a></td>
-                <td><a href="/categorydelete/@category.Id"><i>Delete</i></a></td>
+                <td>
+                    <a href="/categorydetails/@category.Id">
+                        <i>Edit</i>
+                    </a>
+                </td>
+                <td>
+                    <a href="/categorydelete/@category.Id">
+                        <i>Delete</i>
+                    </a>
+                </td>
             </tr>
-            }
+        }
         </tbody>
     </table>
 }
@@ -40,7 +53,7 @@ else
     public IEnumerable<Category> categories { get; set; }
     public string Message { get; set; }
 
-    protected async override Task OnInitializedAsync()
+    protected override async Task OnInitializedAsync()
     {
         try
         {

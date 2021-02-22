@@ -14,7 +14,7 @@ namespace BlazorExpenseTracker.API.Controllers
         private readonly ICategoryRepository _categoryRepository;
         private readonly Serilogger.Serilogger _seriLogger;
 
-        public CategoryController(ICategoryRepository categoryRepository,Serilogger.Serilogger seriLogger)
+        public CategoryController(ICategoryRepository categoryRepository, Serilogger.Serilogger seriLogger)
         {
             var currentMethod = MethodBase.GetCurrentMethod().Name;
             try
@@ -27,7 +27,7 @@ namespace BlazorExpenseTracker.API.Controllers
                 _seriLogger.GetInformattion(ex, ex.Message, currentMethod, "Gorka");
             }
         }
-        
+
         [HttpGet]
         public async Task<IActionResult> GetAllCategories()
         {
@@ -65,7 +65,8 @@ namespace BlazorExpenseTracker.API.Controllers
             try
             {
                 if (category == null) return BadRequest();
-                if (category.Name.Trim() == string.Empty) ModelState.AddModelError("Name", "Category Name shouldn't be empty");
+                if (category.Name.Trim() == string.Empty)
+                    ModelState.AddModelError("Name", "Category Name shouldn't be empty");
                 if (!ModelState.IsValid) return BadRequest(ModelState);
                 var created = await _categoryRepository.InsertCategory(category);
                 return Created("created", created);
@@ -84,7 +85,8 @@ namespace BlazorExpenseTracker.API.Controllers
             try
             {
                 if (category == null) return BadRequest();
-                if (category.Name.Trim() == string.Empty) ModelState.AddModelError("Name", "Category Name shouldn't be empty");
+                if (category.Name.Trim() == string.Empty)
+                    ModelState.AddModelError("Name", "Category Name shouldn't be empty");
                 if (!ModelState.IsValid) return BadRequest(ModelState);
                 await _categoryRepository.UpdateCategory(category);
                 return NoContent(); //success

@@ -1,12 +1,9 @@
-﻿using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
-using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using System;
 using System.Reflection;
 using System.Threading.Tasks;
 using BlazorExpenseTracker.Data.Repositories;
 using BlazorExpenseTracker.Model;
+using Microsoft.AspNetCore.Mvc;
 
 namespace BlazorExpenseTracker.API.Controllers
 {
@@ -16,6 +13,7 @@ namespace BlazorExpenseTracker.API.Controllers
     {
         private readonly IExpenseRepository _expenseRepository;
         private readonly Serilogger.Serilogger _seriLogger;
+
         public ExpensesController(IExpenseRepository expenseRepository, Serilogger.Serilogger seriLogger)
         {
             var currentMethod = MethodBase.GetCurrentMethod().Name;
@@ -44,6 +42,7 @@ namespace BlazorExpenseTracker.API.Controllers
                 return null;
             }
         }
+
         [HttpGet("{id}")]
         public async Task<IActionResult> GetExpenseDetails(int id)
         {
@@ -66,7 +65,7 @@ namespace BlazorExpenseTracker.API.Controllers
             try
             {
                 if (expense == null) return BadRequest();
-                if (expense.Amount < 0) ModelState.AddModelError("Name","Amount shouldnt be empty");
+                if (expense.Amount < 0) ModelState.AddModelError("Name", "Amount shouldnt be empty");
                 if (!ModelState.IsValid) return BadRequest(ModelState);
                 var created = await _expenseRepository.InsertExpenseDetails(expense);
                 return Created("created", created);
@@ -114,6 +113,4 @@ namespace BlazorExpenseTracker.API.Controllers
             }
         }
     }
-    
 }
-

@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using System.Collections.Generic;
 using System.Net.Http;
 using System.Text;
 using System.Text.Json;
@@ -14,28 +12,35 @@ namespace BlazorExpenseTracker.UI.Services
     {
         private readonly HttpClient _httpClient;
 
-        public CategoryService(HttpClient httpClient) =>_httpClient = httpClient;
-        
+        public CategoryService(HttpClient httpClient)
+        {
+            _httpClient = httpClient;
+        }
+
         public async Task<IEnumerable<Category>> GetAllCategories()
         {
-            return await JsonSerializer.DeserializeAsync<IEnumerable<Category>>(await _httpClient.GetStreamAsync($"api/category"),new JsonSerializerOptions{PropertyNameCaseInsensitive = true});
+            return await JsonSerializer.DeserializeAsync<IEnumerable<Category>>(
+                await _httpClient.GetStreamAsync("api/category"),
+                new JsonSerializerOptions {PropertyNameCaseInsensitive = true});
         }
 
         public async Task<Category> GetCategoryDetails(int id)
         {
-            return await JsonSerializer.DeserializeAsync<Category>(await _httpClient.GetStreamAsync($"api/category/{id}"), new JsonSerializerOptions { PropertyNameCaseInsensitive = true });
+            return await JsonSerializer.DeserializeAsync<Category>(
+                await _httpClient.GetStreamAsync($"api/category/{id}"),
+                new JsonSerializerOptions {PropertyNameCaseInsensitive = true});
         }
 
         public async Task SaveCategory(Category category)
         {
-            var categoryJson = new StringContent(JsonSerializer.Serialize(category), Encoding.UTF8,"application/json");
+            var categoryJson = new StringContent(JsonSerializer.Serialize(category), Encoding.UTF8, "application/json");
             if (category.Id == 0)
             {
-                var a = await _httpClient.PostAsync($"api/category",categoryJson);
+                var a = await _httpClient.PostAsync("api/category", categoryJson);
             }
             else
             {
-                await _httpClient.PutAsync($"api/category",categoryJson);
+                await _httpClient.PutAsync("api/category", categoryJson);
             }
         }
 

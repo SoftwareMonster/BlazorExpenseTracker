@@ -1,6 +1,4 @@
-﻿@using BlazorExpenseTracker.UI.Interfaces
-@using BlazorExpenseTracker.Model
-@inject IExpenseService ExpenseService
+﻿@inject IExpenseService ExpenseService
 
 <h1>Hystory</h1>
 <p>@Message</p>
@@ -14,16 +12,16 @@ else
 {
     <table class="table table-bordered table-light table-hover">
         <thead>
-            <tr>
-                <th>Amount</th>
-                <th>Category</th>
-                <th>Date</th>
-            </tr>
+        <tr>
+            <th>Amount</th>
+            <th>Category</th>
+            <th>Date</th>
+        </tr>
         </thead>
         <tbody>
         @foreach (var expense in expenses)
         {
-            <tr @onclick="@(()=> SelectedExpenseChange(expense.Id))">
+            <tr @onclick="@(() => SelectedExpenseChange(expense.Id))">
                 <td style="@GetTextColor(expense.Id)">@expense.Amount</td>
                 <td>@expense.Category.Name</td>
                 <td>@expense.TransactionDate.ToShortDateString()</td>
@@ -37,6 +35,7 @@ else
 
     public IEnumerable<Expense> expenses { get; set; }
     public string Message { get; set; }
+
     [CascadingParameter]
     protected Expense SelectedExpense { get; set; }
 

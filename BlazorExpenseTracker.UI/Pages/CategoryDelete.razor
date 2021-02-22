@@ -1,7 +1,4 @@
 ﻿@page "/categorydelete/{id:int}"
-@using Model
-@using Interfaces
-@using Microsoft.AspNetCore.Razor.TagHelpers
 @inject ICategoryService CategoryService
 @inject NavigationManager NavigationManager
 
@@ -13,20 +10,24 @@
             </div>
             <div class="modal-body">
                 <EditForm Model="@category" OnValidSubmit="DeleteCategory">
-                    <DataAnnotationsValidator />
+                    <DataAnnotationsValidator/>
                     @*<ValidationSummary/>*@
                     <table class="table">
                         <tr>
                             <td>Name</td>
-                            <td><input type="text" @bind="category.Name" /></td>
+                            <td>
+                                <input type="text" @bind="category.Name"/>
+                            </td>
                         </tr>
                         <tr>
-                            <td colspan="2"><ValidationMessage For="@(() => category.Name)"></ValidationMessage> </td>
+                            <td colspan="2">
+                                <ValidationMessage For="@(() => category.Name)"></ValidationMessage>
+                            </td>
                         </tr>
                         <tr>
                             <td colspan="2" style="text-align: center">
-                                <input type="submit" value="Delete" />
-                                <input type="button" value="Cancel" @onclick="Cancel" />
+                                <input type="submit" value="Delete"/>
+                                <input type="button" value="Cancel" @onclick="Cancel"/>
                             </td>
                         </tr>
                     </table>
@@ -37,18 +38,18 @@
 </div>
 
 @code {
+
     [Parameter]
     public int Id { get; set; }
 
     Category category = new Category();
 
-    protected async override Task OnInitializedAsync()
+    protected override async Task OnInitializedAsync()
     {
         if (Id != 0)
         {
             category = await CategoryService.GetCategoryDetails(Id);
         }
-
     }
 
     protected async Task DeleteCategory()
@@ -66,4 +67,5 @@
     {
         NavigateToCategories();
     }
+
 }

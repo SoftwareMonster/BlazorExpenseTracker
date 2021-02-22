@@ -1,11 +1,11 @@
+using System;
+using BlazorExpenseTracker.UI.Interfaces;
+using BlazorExpenseTracker.UI.Services;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using System;
-using BlazorExpenseTracker.UI.Interfaces;
-using BlazorExpenseTracker.UI.Services;
 
 namespace BlazorExpenseTracker.UI
 {
@@ -23,15 +23,14 @@ namespace BlazorExpenseTracker.UI
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddRazorPages();
-            services.AddServerSideBlazor().AddCircuitOptions(option => { option.DetailedErrors = true;});
-            
+            services.AddServerSideBlazor().AddCircuitOptions(option => { option.DetailedErrors = true; });
+
             services.AddHttpClient<ICategoryService, CategoryService>(
-                client => { client.BaseAddress = new Uri("https://localhost:44360");}
-                );
+                client => { client.BaseAddress = new Uri("https://localhost:44360"); }
+            );
             services.AddHttpClient<IExpenseService, ExpenseService>(
                 client => { client.BaseAddress = new Uri("https://localhost:44360"); }
             );
-
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

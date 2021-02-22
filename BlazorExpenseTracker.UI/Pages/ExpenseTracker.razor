@@ -1,28 +1,28 @@
 ﻿@page "/expensetracker"
-@using BlazorExpenseTracker.UI.Components
-@using BlazorExpenseTracker.Model
 @implements IDisposable
 
 <h3>ExpenseTracker</h3>
 <CascadingValue Value="expense">
     <TabControl>
         <TabTitle>
-            <img src="images/@(context.ImageSource).png" width="16" height="16" />
+            <img src="images/@(context.ImageSource).png" width="16" height="16"/>
             @context.Text
         </TabTitle>
         <ChildContent>
             <TabPage Text="Expense" ImageSource="minus-circle">
-                <ExpenseDetails ExpenseType="@Model.ExpenseType.Expense"></ExpenseDetails>
+                <ExpenseDetails ExpenseType="@ExpenseType.Expense"></ExpenseDetails>
             </TabPage>
             <TabPage Text="Income" ImageSource="plus-circle">
-                <ExpenseDetails ExpenseType="@Model.ExpenseType.Income"></ExpenseDetails>
+                <ExpenseDetails ExpenseType="@ExpenseType.Income"></ExpenseDetails>
             </TabPage>
         </ChildContent>
     </TabControl>
     <ExpenseHistory></ExpenseHistory>
 </CascadingValue>
+
 @code {
     public Expense expense;
+
     protected override Task OnInitializedAsync()
     {
         expense = new Expense();
@@ -34,4 +34,5 @@
     {
         expense.OnSelectedExpenseChanged -= StateHasChanged;
     }
+
 }

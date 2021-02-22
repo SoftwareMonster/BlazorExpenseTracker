@@ -26,7 +26,8 @@ namespace BlazorExpenseTracker.UI.Services
 
         public async Task<Expense> GetExpenseDetails(int id)
         {
-            return await JsonSerializer.DeserializeAsync<Expense>(await _httpClient.GetStreamAsync($"api/expenses/{id}"),
+            return await JsonSerializer.DeserializeAsync<Expense>(
+                await _httpClient.GetStreamAsync($"api/expenses/{id}"),
                 new JsonSerializerOptions {PropertyNameCaseInsensitive = true});
         }
 

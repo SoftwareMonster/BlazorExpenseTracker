@@ -1,8 +1,6 @@
 ﻿using System;
-using Microsoft.Extensions.Configuration;
 using Serilog;
 using Serilog.Context;
-using Serilog.Events;
 
 namespace BlazorExpenseTracker.Serilogger
 {
@@ -10,8 +8,9 @@ namespace BlazorExpenseTracker.Serilogger
     {
         public Serilogger()
         {
-            ConfigureLogger(DateTime.Now.ToShortDateString().Replace("/","-"));
+            ConfigureLogger(DateTime.Now.ToShortDateString().Replace("/", "-"));
         }
+
         private static void ConfigureLogger(string day)
         {
             // Create Logger
@@ -19,8 +18,9 @@ namespace BlazorExpenseTracker.Serilogger
                 .WriteTo.Console()
                 .WriteTo.Async(a => a.File($"{day}/log.log",
                     buffered: true,
-                    outputTemplate: "[{Timestamp:HH:mm:ss} {Level:u3}]{UserId} - {Event} : {MachineName} {ThreadId} {Message} {Exception:1} {NewLine}",
-                   // rollingInterval: RollingInterval.Day,
+                    outputTemplate:
+                    "[{Timestamp:HH:mm:ss} {Level:u3}]{UserId} - {Event} : {MachineName} {ThreadId} {Message} {Exception:1} {NewLine}",
+                    // rollingInterval: RollingInterval.Day,
                     retainedFileCountLimit: 10))
                 .Enrich.WithThreadId()
                 .Enrich.FromLogContext()
@@ -28,7 +28,7 @@ namespace BlazorExpenseTracker.Serilogger
                 .CreateLogger();
         }
 
-        public void GetInformattion(Exception exception,string message,string eventLog,string user)
+        public void GetInformattion(Exception exception, string message, string eventLog, string user)
         {
             using (LogContext.PushProperty("UserId", user))
             using (LogContext.PushProperty("Event", eventLog))
